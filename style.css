@@ -4,53 +4,90 @@
 }
 
 body{
-    background: #f6d5d5;
+    background: linear-gradient(120deg, #f6d5d5, #ffd1f7);
 }
 
 .board{
     display: grid;
     grid-template-columns: repeat(4, 100px);
-    border-style: double;
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 1;
 }
 
 .card{
     width: 100px;
     height: 100px;
-    background-color: gray;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
+    perspective: 1000px;
     cursor: pointer;
-    user-select: none;
 }
 
-.card:hover{
-    background-color: black;
+.card-inner{
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    border-radius: 8px;
+}
+
+.card.flipped .card-inner{
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.card-front{
+    background: linear-gradient(135deg, #999, #555);
+}
+
+.card-back{
+    background: white;
+    transform: rotateY(180deg);
+}
+
+.matched .card-inner{
+    animation: pulse 0.7s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
 }
 
 .matched{
-    background-color: green;
-    cursor: default;
+    box-shadow: 0 0 15px 4px green;
 }
 
 #scoreBoard{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin-bottom: 20px;
-    margin-left: 480px;
-    margin-right: 480px;
+    margin: 20px auto;
+    width: 300px;
     font-size: 20px;
     font-weight: bold;
+}
+
+.active-player{
+    color: blue;
+    text-decoration: underline;
 }
 
 .board-overlay{
@@ -62,14 +99,16 @@ body{
     font-weight: bold;
     color: blue;
     opacity: 0;
-    transition: opacity 0.8s ease;
+    transition: opacity 0.2 ease;
     pointer-events: none;
+    z-index: 10;
 }
 
 .board-container{
     position: relative;
     display: inline-block;
     margin: auto;
+    z-index: 1;
 }
 
 #winner-display{
@@ -78,5 +117,20 @@ body{
     margin-top: 20px;
     color: darkgreen;
     opacity: 0;
-    transition: opacity 1s ease;
+    transition: opacity 0.5s
+}
+
+#restart-btn {
+    background: #ff6f61;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#restart-btn:hover{
+    background: #ff4c40;
 }
